@@ -148,6 +148,45 @@ body {
     font-size: clamp(1.2rem, 4vw, 1.8rem);
     font-weight: 800;
 }
+.pagina-jogo header {
+    background: white;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 12px rgba(128, 0, 128, 0.08);
+    height: 60px;
+    box-sizing: border-box;
+}
+
+.pagina-jogo header h1 {
+    color: #800080;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    font-weight: 800;
+}
+
+.btn-inicio {
+    background: #f3e5f5;
+    border: 2px solid #800080;
+    color: #800080;
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    font-family: 'Nunito', sans-serif;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.btn-inicio:hover {
+    background: #e1bee7;
+    box-shadow: 0 2px 8px rgba(128,0,128,0.2);
+}
 
 .btn-reiniciar {
     background: #f3e5f5;
