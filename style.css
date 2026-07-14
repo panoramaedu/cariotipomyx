@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Segoe UI', system-ui, sans-serif;
-    background-color: #f5f3ff;      /* tom lavanda suave */
+    background-color: #f5f3ff;
     color: #2d2b3e;
 }
 
@@ -18,6 +18,7 @@ body {
     align-items: center;
     min-height: 100vh;
     background: linear-gradient(135deg, #f5f3ff 0%, #e8e2ff 100%);
+    padding: 1rem;
 }
 
 .container-instrucoes {
@@ -27,15 +28,15 @@ body {
 }
 
 .container-instrucoes h1 {
-    font-size: 2.5rem;
-    color: #800080;    /* púrpura destaque */
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    color: #800080;
     margin-bottom: 1.5rem;
 }
 
 .box-instrucoes {
     background: white;
     border-radius: 20px;
-    padding: 2rem;
+    padding: 1.5rem;
     box-shadow: 0 8px 24px rgba(128, 0, 128, 0.15);
     text-align: left;
 }
@@ -43,11 +44,12 @@ body {
 .box-instrucoes h2 {
     color: #800080;
     margin-bottom: 1rem;
+    font-size: 1.4rem;
 }
 
 .box-instrucoes p,
 .box-instrucoes li {
-    font-size: 1.1rem;
+    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
     line-height: 1.6;
     margin-bottom: 0.5rem;
 }
@@ -68,6 +70,7 @@ body {
     transition: background 0.3s, transform 0.1s;
     display: block;
     margin: 1.5rem auto 0;
+    width: fit-content;
 }
 
 .btn-iniciar:hover {
@@ -78,16 +81,18 @@ body {
 /* === PÁGINA DO JOGO === */
 .pagina-jogo header {
     background: white;
-    padding: 0.8rem 2rem;
+    padding: 0.8rem 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 12px rgba(128, 0, 128, 0.1);
+    flex-wrap: wrap;
+    gap: 0.5rem;
 }
 
 .pagina-jogo header h1 {
     color: #800080;
-    font-size: 1.8rem;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
 }
 
 .btn-reiniciar {
@@ -96,9 +101,10 @@ body {
     color: #800080;
     padding: 0.5rem 1.2rem;
     border-radius: 30px;
-    font-size: 1rem;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: background 0.2s;
+    white-space: nowrap;
 }
 
 .btn-reiniciar:hover {
@@ -114,22 +120,21 @@ body {
     min-height: calc(100vh - 70px);
 }
 
-/* Grade de cartas */
+/* Grade de cartas com CSS Grid */
 .grade-cartas {
     flex: 3;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: flex-start;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 10px;
+    align-content: start;
 }
 
 .carta {
-    width: 120px;
-    height: 160px;
+    aspect-ratio: 3 / 4;  /* mantém proporção */
     perspective: 800px;
     cursor: pointer;
     user-select: none;
+    /* tamanho será definido pela grid column */
 }
 
 .carta-inner {
@@ -167,7 +172,7 @@ body {
 .carta-verso {
     background: linear-gradient(145deg, #800080, #5e005e);
     color: white;
-    font-size: 2rem;
+    font-size: clamp(1.2rem, 3vw, 2rem);
     font-weight: bold;
     letter-spacing: 2px;
     border: 2px solid #d4b3ff;
@@ -212,10 +217,11 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     background: #f5f3ff;
     padding: 0.8rem;
     border-radius: 12px;
+    flex-wrap: wrap;
 }
 
 .info-pares .icone {
@@ -230,6 +236,7 @@ body {
 .cariotipo-final h2 {
     color: #800080;
     margin-bottom: 1rem;
+    font-size: 1.2rem;
 }
 
 .pares-ordenados {
@@ -249,16 +256,58 @@ body {
 .mensagem-parabens {
     font-weight: bold;
     color: #2d6a4f;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
-/* Responsivo */
-@media (max-width: 800px) {
+/* ============= RESPONSIVIDADE ============= */
+
+/* Tablet: mantém 4 colunas, mas reduz padding */
+@media (max-width: 900px) {
+    .area-jogo {
+        padding: 1rem;
+        gap: 1rem;
+    }
+    .grade-cartas {
+        gap: 8px;
+    }
+    .painel-lateral {
+        padding: 1rem;
+    }
+}
+
+/* Tablet pequeno / celular grande: 3 colunas */
+@media (max-width: 700px) {
     .area-jogo {
         flex-direction: column;
     }
-    .carta {
-        width: 90px;
-        height: 130px;
+    .grade-cartas {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .painel-lateral {
+        position: static; /* remove sticky em mobile */
+    }
+    .btn-reiniciar {
+        padding: 0.4rem 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+/* Celular médio: 2 colunas */
+@media (max-width: 450px) {
+    .grade-cartas {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .carta-verso {
+        font-size: 1rem;
+    }
+    header {
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* Celular muito pequeno (ex: 320px) */
+@media (max-width: 350px) {
+    .grade-cartas {
+        gap: 5px;
     }
 }
