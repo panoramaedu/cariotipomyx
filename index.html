@@ -11,15 +11,36 @@
         <h1>🧬 Cariótipo MYX</h1>
         <div class="box-instrucoes">
             <h2>Como jogar</h2>
-            <p>Encontre os <strong>23 pares de cromossomos homólogos</strong> virando as cartas.</p>
+            <p>Encontre os <strong>pares de cromossomos homólogos</strong> virando as cartas.</p>
             <ul>
                 <li>Cada par tem <strong>cor e tamanho únicos</strong>.</li>
                 <li>Os tamanhos estão <strong>exagerados</strong> para facilitar a identificação.</li>
                 <li>Em <strong>10% das partidas</strong>, um dos pares terá uma carta com <strong>dois cromossomos</strong> (duplicação). A outra carta do mesmo par será normal. Isso representa uma alteração cromossômica – será que você consegue identificá‑la?</li>
             </ul>
             <p>Ao completar o jogo, o <strong>cariótipo completo</strong> será exibido.</p>
-            <button class="btn-iniciar" onclick="window.location.href='jogo.html'">▶ Iniciar Jogo</button>
+            
+            <h2>Escolha a dificuldade:</h2>
+            <div class="botoes-dificuldade">
+                <button class="btn-dificuldade facil" onclick="iniciarJogo('facil')">
+                    🪰 Fácil<br><small>Mosca das frutas (4 pares)</small>
+                </button>
+                <button class="btn-dificuldade medio" onclick="iniciarJogo('medio')">
+                    🥕 Médio<br><small>Cenoura (9 pares)</small>
+                </button>
+                <button class="btn-dificuldade dificil" onclick="iniciarJogo('dificil')">
+                    🌊 Difícil<br><small>Ouriço do mar (18 pares)</small>
+                </button>
+                <button class="btn-dificuldade mestre" onclick="iniciarJogo('mestre')">
+                    🧬 Mestre<br><small>Humano (23 pares)</small>
+                </button>
+            </div>
         </div>
     </div>
+
+    <script>
+        function iniciarJogo(modo) {
+            window.location.href = 'jogo.html?modo=' + modo;
+        }
+    </script>
 </body>
 </html>

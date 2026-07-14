@@ -1,8 +1,29 @@
-var NUM_PARES = 23;
-var TOTAL_CARTAS = NUM_PARES * 2;
-var CHANCE_DUPLICACAO = 0.10;
+// === CONFIGURACOES DOS MODOS ===
+var MODOS = {
+    facil: {
+        nome: 'Mosca das frutas',
+        numPares: 4,
+        tamanhos: [160, 130, 100, 70]
+    },
+    medio: {
+        nome: 'Cenoura',
+        numPares: 9,
+        tamanhos: [160, 148, 136, 124, 112, 100, 88, 76, 64]
+    },
+    dificil: {
+        nome: 'Ouriço do mar',
+        numPares: 18,
+        tamanhos: [160, 154, 148, 142, 136, 130, 124, 118, 112, 106, 100, 94, 88, 82, 76, 70, 64, 58]
+    },
+    mestre: {
+        nome: 'Humano',
+        numPares: 23,
+        tamanhos: [160, 154, 148, 142, 136, 130, 124, 118, 112, 106, 100, 94, 88, 82, 76, 70, 64, 58, 52, 46, 40, 34, 28]
+    }
+};
 
-var CORES = [
+// Paleta fixa de 23 cores (usaremos as N primeiras conforme o modo)
+var CORES_COMPLETAS = [
     '#E6194B', '#3CB44B', '#FFE119', '#4363D8', '#F58231',
     '#911EB4', '#42D4F4', '#F032E6', '#BFEF45', '#469990',
     '#DCBEFF', '#9A6324', '#FF4500', '#00CED1', '#800000',
@@ -10,12 +31,17 @@ var CORES = [
     '#FF6347', '#7B68EE', '#20B2AA'
 ];
 
-var TAMANHOS = [
-    160, 154, 148, 142, 136, 130, 124, 118, 112, 106,
-    100,  94,  88,  82,  76,  70,  64,  58,  52,  46,
-     40,  34,  28
-];
+// Variáveis globais (serão definidas no init)
+var MODO_ATUAL;
+var NUM_PARES;
+var TOTAL_CARTAS;
+var CORES;
+var TAMANHOS;
+var NUM_COLUNAS = 4; // fixo
 
+var CHANCE_DUPLICACAO = 0.10;
+
+// Elementos DOM
 var gradeCartas = document.getElementById('gradeCartas');
 var contadorPares = document.getElementById('contadorPares');
 var cariotipoFinal = document.getElementById('cariotipoFinal');
@@ -27,6 +53,27 @@ var paresEncontrados = 0;
 var bloqueado = false;
 var jogoFinalizado = false;
 
+// === LEITURA DO MODO VIA URL ===
+function obterModo() {
+    var params = new URLSearchParams(window.location.search);
+    var modo = params.get('modo');
+    if (modo && MODOS[modo]) {
+        return modo;
+    }
+    return 'mestre'; // padrão
+}
+
+// === INICIALIZACAO DAS VARIAVEIS DO MODO ===
+function configurarModo(modo) {
+    MODO_ATUAL = modo;
+    var config = MODOS[modo];
+    NUM_PARES = config.numPares;
+    TOTAL_CARTAS = NUM_PARES * 2;
+    CORES = CORES_COMPLETAS.slice(0, NUM_PARES);
+    TAMANHOS = config.tamanhos;
+}
+
+// === GERACAO DE SVG DOS CROMOSSOMOS ===
 function gerarSVGCromossomo(indicePar, duplicado) {
     if (duplicado === undefined) duplicado = false;
     var cor = CORES[indicePar];
@@ -89,6 +136,7 @@ function desenharCromossomo(svg, x, y, largura, alturaBraco, gap, cor) {
     svg.appendChild(line);
 }
 
+// === INICIALIZACAO DO BARALHO ===
 function criarBaralho() {
     var baralho = [];
     
@@ -120,6 +168,32 @@ function criarBaralho() {
     return baralho;
 }
 
+// === AJUSTAR GRADE (CSS Grid dinâmico) ===
+function configurarGrade() {
+    var numLinhas = Math.ceil(TOTAL_CARTAS / NUM_COLUNAS);
+    gradeCartas.style.gridTemplateRows = 'repeat(' + numLinhas + ', 1fr)';
+    
+    // Centralizar cartas da última linha
+    var cartasNaUltimaLinha = TOTAL_CARTAS % NUM_COLUNAS;
+    if (cartasNaUltimaLinha === 0) return; // nada a fazer
+    
+    var cartasDOM = gradeCartas.children;
+    var inicioUltimaLinha = TOTAL_CARTAS - cartasNaUltimaLinha;
+    
+    // Remove estilos anteriores de grid-column
+    for (var i = 0; i < cartasDOM.length; i++) {
+        cartasDOM[i].style.gridColumn = '';
+    }
+    
+    // Posiciona as cartas da última linha nas colunas centrais
+    var colunaInicial = Math.floor((NUM_COLUNAS - cartasNaUltimaLinha) / 2) + 1;
+    for (var i = 0; i < cartasNaUltimaLinha; i++) {
+        var idx = inicioUltimaLinha + i;
+        cartasDOM[idx].style.gridColumn = (colunaInicial + i) + ' / ' + (colunaInicial + i + 1);
+    }
+}
+
+// === CONSTRUIR INTERFACE DAS CARTAS ===
 function construirGrade() {
     if (!gradeCartas) return;
     
@@ -164,8 +238,11 @@ function construirGrade() {
             gradeCartas.appendChild(divCarta);
         })(i);
     }
+    
+    configurarGrade();
 }
 
+// === LOGICA DE VIRADA ===
 function virarCarta(elementoCarta, index) {
     if (bloqueado || jogoFinalizado) return;
     if (elementoCarta.classList.contains('flipped') || elementoCarta.classList.contains('matched')) return;
@@ -265,4 +342,7 @@ function reiniciarJogo() {
     construirGrade();
 }
 
+// === INICIALIZACAO ===
+var modo = obterModo();
+configurarModo(modo);
 construirGrade();
