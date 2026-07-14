@@ -132,11 +132,8 @@ body {
     overflow: hidden;
 }
 
-/* Centralização das duas últimas cartas (desktop) */
+/* Centralização das duas últimas cartas apenas no desktop */
 @media (min-width: 751px) {
-    .grade-cartas {
-        /* As duas últimas cartas ocupam as colunas centrais */
-    }
     /* Penúltima carta (índice 45) */
     .carta:nth-last-child(2) {
         grid-column: 2 / 3;
