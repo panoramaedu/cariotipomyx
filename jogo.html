@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cariótipo MYX - Jogo da Memória</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="pagina-jogo">
+    <header>
+        <h1>🧬 Cariótipo MYX</h1>
+        <button class="btn-reiniciar" onclick="reiniciarJogo()">🔄 Nova Partida</button>
+    </header>
+
+    <main class="area-jogo">
+        <div class="grade-cartas" id="gradeCartas"></div>
+        <aside class="painel-lateral" id="painelLateral">
+            <div class="info-pares">
+                <span class="icone">🧩</span>
+                <span>Pares encontrados:</span>
+                <span id="contadorPares">0 / 23</span>
+            </div>
+            <div class="cariotipo-final" id="cariotipoFinal" style="display: none;">
+                <h2>Cariótipo completo</h2>
+                <div class="pares-ordenados" id="paresOrdenados"></div>
+                <p class="mensagem-parabens">🎉 Parabéns! Você montou o cariótipo!</p>
+            </div>
+        </aside>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,264 @@
+/* === RESET & BASE === */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background-color: #f5f3ff;      /* tom lavanda suave */
+    color: #2d2b3e;
+}
+
+/* === PÁGINA INICIAL === */
+.pagina-inicial {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f5f3ff 0%, #e8e2ff 100%);
+}
+
+.container-instrucoes {
+    text-align: center;
+    max-width: 600px;
+    padding: 2rem;
+}
+
+.container-instrucoes h1 {
+    font-size: 2.5rem;
+    color: #800080;    /* púrpura destaque */
+    margin-bottom: 1.5rem;
+}
+
+.box-instrucoes {
+    background: white;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 8px 24px rgba(128, 0, 128, 0.15);
+    text-align: left;
+}
+
+.box-instrucoes h2 {
+    color: #800080;
+    margin-bottom: 1rem;
+}
+
+.box-instrucoes p,
+.box-instrucoes li {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 0.5rem;
+}
+
+.box-instrucoes ul {
+    margin-left: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.btn-iniciar {
+    background: #800080;
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    font-size: 1.3rem;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+    display: block;
+    margin: 1.5rem auto 0;
+}
+
+.btn-iniciar:hover {
+    background: #5e005e;
+    transform: scale(1.05);
+}
+
+/* === PÁGINA DO JOGO === */
+.pagina-jogo header {
+    background: white;
+    padding: 0.8rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 12px rgba(128, 0, 128, 0.1);
+}
+
+.pagina-jogo header h1 {
+    color: #800080;
+    font-size: 1.8rem;
+}
+
+.btn-reiniciar {
+    background: #f0e0ff;
+    border: 2px solid #800080;
+    color: #800080;
+    padding: 0.5rem 1.2rem;
+    border-radius: 30px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-reiniciar:hover {
+    background: #e0ccff;
+}
+
+.area-jogo {
+    display: flex;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: calc(100vh - 70px);
+}
+
+/* Grade de cartas */
+.grade-cartas {
+    flex: 3;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: flex-start;
+    gap: 10px;
+}
+
+.carta {
+    width: 120px;
+    height: 160px;
+    perspective: 800px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.carta-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.4s ease;
+    transform-style: preserve-3d;
+}
+
+.carta.flipped .carta-inner {
+    transform: rotateY(180deg);
+}
+
+.carta.matched .carta-inner {
+    transform: rotateY(180deg);
+}
+
+.carta.matched {
+    cursor: default;
+}
+
+.carta-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.carta-verso {
+    background: linear-gradient(145deg, #800080, #5e005e);
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    border: 2px solid #d4b3ff;
+}
+
+.carta-frente {
+    background: white;
+    border: 2px solid #e0d7f5;
+    transform: rotateY(180deg);
+    padding: 8px;
+}
+
+/* Animação de acerto */
+@keyframes acertoPulse {
+    0% { box-shadow: 0 0 0 0 rgba(128, 0, 128, 0.5); }
+    50% { box-shadow: 0 0 20px 10px rgba(128, 0, 128, 0.3); }
+    100% { box-shadow: 0 0 0 0 rgba(128, 0, 128, 0); }
+}
+
+.carta.matched .carta-frente {
+    animation: acertoPulse 0.6s ease;
+    border-color: #800080;
+    background: #f9f4ff;
+}
+
+/* Painel lateral */
+.painel-lateral {
+    flex: 1;
+    background: white;
+    border-radius: 20px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 16px rgba(128, 0, 128, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    position: sticky;
+    top: 1.5rem;
+    height: fit-content;
+}
+
+.info-pares {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.2rem;
+    background: #f5f3ff;
+    padding: 0.8rem;
+    border-radius: 12px;
+}
+
+.info-pares .icone {
+    font-size: 1.5rem;
+}
+
+#contadorPares {
+    font-weight: bold;
+    color: #800080;
+}
+
+.cariotipo-final h2 {
+    color: #800080;
+    margin-bottom: 1rem;
+}
+
+.pares-ordenados {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 1rem;
+}
+
+.par-cariotipo {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+}
+
+.mensagem-parabens {
+    font-weight: bold;
+    color: #2d6a4f;
+    font-size: 1.1rem;
+}
+
+/* Responsivo */
+@media (max-width: 800px) {
+    .area-jogo {
+        flex-direction: column;
+    }
+    .carta {
+        width: 90px;
+        height: 130px;
+    }
+}
