@@ -29,7 +29,7 @@ const paresOrdenados = document.getElementById('paresOrdenados');
 let cartas = [];
 let cartasViradas = [];
 let paresEncontrados = 0;
-let bloqueado = false;          // impede cliques durante animação
+let bloqueado = false;
 let jogoFinalizado = false;
 
 // === GERAÇÃO DE SVG DOS CROMOSSOMOS ===
@@ -40,20 +40,15 @@ function gerarSVGCromossomo(indicePar, duplicado = false) {
     const gapCentromero = 5;
     const alturaBraco = (alturaTotal - gapCentromero) / 2;
 
-    // Grupo SVG
     const svgNS = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(svgNS, 'svg');
     
     if (duplicado) {
-        // Dois cromossomos lado a lado
-        const larguraTotal = larguraBraco * 2 + 8; // espaçamento de 8px entre eles
+        const larguraTotal = larguraBraco * 2 + 8;
         svg.setAttribute('viewBox', `0 0 ${larguraTotal * 2 + 8} ${alturaTotal + 4}`);
         svg.setAttribute('width', '100%');
         svg.setAttribute('height', '100%');
-        
-        // Primeiro cromossomo
         desenharCromossomo(svg, 2, 2, larguraBraco, alturaBraco, gapCentromero, cor);
-        // Segundo cromossomo
         desenharCromossomo(svg, 2 + larguraBraco + 8, 2, larguraBraco, alturaBraco, gapCentromero, cor);
     } else {
         svg.setAttribute('viewBox', `0 0 ${larguraBraco + 4} ${alturaTotal + 4}`);
@@ -68,7 +63,6 @@ function gerarSVGCromossomo(indicePar, duplicado = false) {
 function desenharCromossomo(svg, x, y, largura, alturaBraco, gap, cor) {
     const svgNS = 'http://www.w3.org/2000/svg';
     
-    // Braço superior
     const rect1 = document.createElementNS(svgNS, 'rect');
     rect1.setAttribute('x', x);
     rect1.setAttribute('y', y);
@@ -79,7 +73,6 @@ function desenharCromossomo(svg, x, y, largura, alturaBraco, gap, cor) {
     rect1.setAttribute('fill', cor);
     svg.appendChild(rect1);
     
-    // Braço inferior
     const rect2 = document.createElementNS(svgNS, 'rect');
     rect2.setAttribute('x', x);
     rect2.setAttribute('y', y + alturaBraco + gap);
@@ -90,7 +83,6 @@ function desenharCromossomo(svg, x, y, largura, alturaBraco, gap, cor) {
     rect2.setAttribute('fill', cor);
     svg.appendChild(rect2);
     
-    // Centrômero (linha sutil)
     const line = document.createElementNS(svgNS, 'line');
     line.setAttribute('x1', x);
     line.setAttribute('y1', y + alturaBraco + gap/2);
@@ -106,19 +98,16 @@ function desenharCromossomo(svg, x, y, largura, alturaBraco, gap, cor) {
 function criarBaralho() {
     const baralho = [];
     
-    // Sorteia se haverá duplicação nesta partida
     const temDuplicacao = Math.random() < CHANCE_DUPLICACAO;
     let parDuplicado = -1;
     if (temDuplicacao) {
         parDuplicado = Math.floor(Math.random() * NUM_PARES);
     }
     
-    // Gera as cartas
     for (let i = 0; i < NUM_PARES; i++) {
         const duplicada = (i === parDuplicado);
         
         if (duplicada) {
-            // Uma carta normal e uma duplicada
             baralho.push({
                 pairId: i,
                 duplicado: false,
@@ -130,7 +119,6 @@ function criarBaralho() {
                 idUnico: `${i}-b`
             });
         } else {
-            // Duas cartas normais
             baralho.push({
                 pairId: i,
                 duplicado: false,
@@ -144,7 +132,6 @@ function criarBaralho() {
         }
     }
     
-    // Embaralhar
     for (let i = baralho.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [baralho[i], baralho[j]] = [baralho[j], baralho[i]];
@@ -173,16 +160,13 @@ function construirGrade() {
         const inner = document.createElement('div');
         inner.className = 'carta-inner';
         
-        // Verso
         const verso = document.createElement('div');
         verso.className = 'carta-face carta-verso';
         verso.textContent = 'MYX';
         
-        // Frente
         const frente = document.createElement('div');
         frente.className = 'carta-face carta-frente';
         
-        // Adiciona o SVG do cromossomo
         const svg = gerarSVGCromossomo(carta.pairId, carta.duplicado);
         frente.appendChild(svg);
         
@@ -193,15 +177,6 @@ function construirGrade() {
         divCarta.addEventListener('click', () => virarCarta(divCarta, index));
         gradeCartas.appendChild(divCarta);
     });
-    // ... dentro de construirGrade(), após o loop que adiciona as cartas
-
-    // Centralizar as duas últimas cartas (índices 44 e 45) em grades de 4 colunas
-    if (gradeCartas.children.length === TOTAL_CARTAS) {
-        // Funciona apenas se a grid tiver 4 colunas (desktop)
-        const cartasDOM = gradeCartas.children;
-        cartasDOM[TOTAL_CARTAS - 2].style.gridColumn = '2 / 3'; // penúltima
-        cartasDOM[TOTAL_CARTAS - 1].style.gridColumn = '3 / 4'; // última
-    }
 }
 
 // === LÓGICA DE VIRADA ===
@@ -210,7 +185,6 @@ function virarCarta(elementoCarta, index) {
     if (elementoCarta.classList.contains('flipped') || elementoCarta.classList.contains('matched')) return;
     if (cartasViradas.length >= 2) return;
     
-    // Virar
     elementoCarta.classList.add('flipped');
     cartasViradas.push({ elemento: elementoCarta, index });
     
@@ -225,7 +199,6 @@ function verificarPar() {
     const id2 = cartas[segunda.index].pairId;
     
     if (id1 === id2) {
-        // Acerto
         primeira.elemento.classList.add('matched');
         segunda.elemento.classList.add('matched');
         paresEncontrados++;
@@ -238,7 +211,6 @@ function verificarPar() {
             finalizarJogo();
         }
     } else {
-        // Erro – desvirar após 1 segundo
         bloqueado = true;
         setTimeout(() => {
             primeira.elemento.classList.remove('flipped');
@@ -283,12 +255,10 @@ function finalizarJogo() {
 
 function exibirCariotipo() {
     paresOrdenados.innerHTML = '';
-    // Ordenar pares do maior para o menor (índice 0 = maior)
     for (let i = 0; i < NUM_PARES; i++) {
         const divPar = document.createElement('div');
         divPar.className = 'par-cariotipo';
         
-        // Desenha dois cromossomos normais (sem duplicação)
         const svg1 = gerarSVGCromossomo(i, false);
         const svg2 = gerarSVGCromossomo(i, false);
         svg1.style.width = '30px';
