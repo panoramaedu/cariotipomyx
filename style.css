@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
+
 * {
     margin: 0;
     padding: 0;
@@ -5,7 +7,7 @@
 }
 
 body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
     background-color: #f5f3ff;
     color: #2d2b3e;
 }
@@ -27,29 +29,31 @@ body {
 }
 
 .container-instrucoes h1 {
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    font-weight: 800;
     color: #800080;
     margin-bottom: 1.5rem;
 }
 
 .box-instrucoes {
     background: white;
-    border-radius: 20px;
-    padding: 1.5rem;
-    box-shadow: 0 8px 24px rgba(128, 0, 128, 0.15);
+    border-radius: 24px;
+    padding: 2rem;
+    box-shadow: 0 12px 32px rgba(128, 0, 128, 0.12);
     text-align: left;
 }
 
 .box-instrucoes h2 {
     color: #800080;
     margin-bottom: 1rem;
-    font-size: 1.4rem;
+    font-size: 1.5rem;
+    font-weight: 700;
 }
 
 .box-instrucoes p,
 .box-instrucoes li {
-    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-    line-height: 1.6;
+    font-size: 1.05rem;
+    line-height: 1.7;
     margin-bottom: 0.5rem;
 }
 
@@ -64,38 +68,68 @@ body {
     flex-wrap: wrap;
     gap: 0.8rem;
     justify-content: center;
-    margin-top: 1rem;
+    margin-top: 1.2rem;
 }
 
 .btn-dificuldade {
     flex: 1 1 130px;
-    padding: 1rem 0.8rem;
-    border: none;
-    border-radius: 15px;
-    font-size: 1rem;
-    font-weight: bold;
-    color: white;
+    padding: 1.2rem 1rem;
+    border: 2px solid transparent;
+    border-radius: 50px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
     cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-.btn-dificuldade:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    letter-spacing: 0.3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .btn-dificuldade small {
-    display: block;
-    font-weight: normal;
+    font-weight: 600;
     font-size: 0.8rem;
-    margin-top: 0.3rem;
+    opacity: 0.9;
+    margin-top: 0.2rem;
 }
 
-.facil { background: #4CAF50; }
-.medio { background: #FF9800; }
-.dificil { background: #f44336; }
-.mestre { background: #800080; }
+.btn-dificuldade:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+/* Cores individuais */
+.facil { 
+    background: #a5d6a7; 
+    color: #1b5e20; 
+    border-color: #81c784;
+}
+.facil:hover { background: #81c784; }
+
+.medio { 
+    background: #ffcc80; 
+    color: #e65100; 
+    border-color: #ffb74d;
+}
+.medio:hover { background: #ffb74d; }
+
+.dificil { 
+    background: #ef9a9a; 
+    color: #b71c1c; 
+    border-color: #e57373;
+}
+.dificil:hover { background: #e57373; }
+
+.mestre { 
+    background: #ce93d8; 
+    color: #4a148c; 
+    border-color: #ba68c8;
+}
+.mestre:hover { background: #ba68c8; }
 
 /* Página do jogo */
 .pagina-jogo header {
@@ -104,7 +138,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 12px rgba(128, 0, 128, 0.1);
+    box-shadow: 0 2px 12px rgba(128, 0, 128, 0.08);
     height: 60px;
     box-sizing: border-box;
 }
@@ -112,22 +146,26 @@ body {
 .pagina-jogo header h1 {
     color: #800080;
     font-size: clamp(1.2rem, 4vw, 1.8rem);
+    font-weight: 800;
 }
 
 .btn-reiniciar {
-    background: #f0e0ff;
+    background: #f3e5f5;
     border: 2px solid #800080;
     color: #800080;
-    padding: 0.5rem 1.2rem;
+    padding: 0.5rem 1.4rem;
     border-radius: 30px;
-    font-size: 0.9rem;
+    font-size: 0.95rem;
+    font-weight: 700;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: all 0.2s;
     white-space: nowrap;
+    font-family: 'Nunito', sans-serif;
 }
 
 .btn-reiniciar:hover {
-    background: #e0ccff;
+    background: #e1bee7;
+    box-shadow: 0 2px 8px rgba(128,0,128,0.2);
 }
 
 .area-jogo {
@@ -139,7 +177,7 @@ body {
     box-sizing: border-box;
 }
 
-/* Grade de cartas – sem grid-template-rows fixo (definido via JS) */
+/* Grade de cartas */
 .grade-cartas {
     flex: 3;
     display: grid;
@@ -179,8 +217,8 @@ body {
     width: 100%;
     height: 100%;
     backface-visibility: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    border-radius: 14px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -190,7 +228,7 @@ body {
     background: linear-gradient(145deg, #800080, #5e005e);
     color: white;
     font-size: clamp(1.2rem, 3vw, 2rem);
-    font-weight: bold;
+    font-weight: 800;
     letter-spacing: 2px;
     border: 2px solid #d4b3ff;
 }
@@ -204,7 +242,7 @@ body {
 
 @keyframes acertoPulse {
     0% { box-shadow: 0 0 0 0 rgba(128,0,128,0.5); }
-    50% { box-shadow: 0 0 20px 10px rgba(128,0,128,0.3); }
+    50% { box-shadow: 0 0 20px 10px rgba(128,0,128,0.25); }
     100% { box-shadow: 0 0 0 0 rgba(128,0,128,0); }
 }
 
@@ -220,7 +258,7 @@ body {
     background: white;
     border-radius: 20px;
     padding: 1.5rem;
-    box-shadow: 0 4px 16px rgba(128,0,128,0.1);
+    box-shadow: 0 4px 16px rgba(128,0,128,0.08);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -233,9 +271,10 @@ body {
     align-items: center;
     gap: 0.5rem;
     font-size: 1.1rem;
+    font-weight: 600;
     background: #f5f3ff;
-    padding: 0.8rem;
-    border-radius: 12px;
+    padding: 0.9rem;
+    border-radius: 16px;
     flex-wrap: wrap;
 }
 
@@ -244,14 +283,15 @@ body {
 }
 
 #contadorPares {
-    font-weight: bold;
+    font-weight: 800;
     color: #800080;
 }
 
 .cariotipo-final h2 {
     color: #800080;
     margin-bottom: 1rem;
-    font-size: 1.2rem;
+    font-size: 1.3rem;
+    font-weight: 700;
 }
 
 .pares-ordenados {
@@ -269,9 +309,10 @@ body {
 }
 
 .mensagem-parabens {
-    font-weight: bold;
+    font-weight: 800;
     color: #2d6a4f;
-    font-size: 1rem;
+    font-size: 1.1rem;
+    text-align: center;
 }
 
 /* Responsividade */
