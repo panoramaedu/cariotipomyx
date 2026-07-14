@@ -1,4 +1,3 @@
-// === CONFIGURACOES ===
 var NUM_PARES = 23;
 var TOTAL_CARTAS = NUM_PARES * 2;
 var CHANCE_DUPLICACAO = 0.10;
@@ -17,20 +16,17 @@ var TAMANHOS = [
      40,  34,  28
 ];
 
-// === ELEMENTOS DOM ===
 var gradeCartas = document.getElementById('gradeCartas');
 var contadorPares = document.getElementById('contadorPares');
 var cariotipoFinal = document.getElementById('cariotipoFinal');
 var paresOrdenados = document.getElementById('paresOrdenados');
 
-// === ESTADO DO JOGO ===
 var cartas = [];
 var cartasViradas = [];
 var paresEncontrados = 0;
 var bloqueado = false;
 var jogoFinalizado = false;
 
-// === GERACAO DE SVG DOS CROMOSSOMOS ===
 function gerarSVGCromossomo(indicePar, duplicado) {
     if (duplicado === undefined) duplicado = false;
     var cor = CORES[indicePar];
@@ -93,7 +89,6 @@ function desenharCromossomo(svg, x, y, largura, alturaBraco, gap, cor) {
     svg.appendChild(line);
 }
 
-// === INICIALIZACAO DO BARALHO ===
 function criarBaralho() {
     var baralho = [];
     
@@ -115,7 +110,6 @@ function criarBaralho() {
         }
     }
     
-    // Embaralhar
     for (var i = baralho.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
         var temp = baralho[i];
@@ -126,7 +120,6 @@ function criarBaralho() {
     return baralho;
 }
 
-// === CONSTRUIR INTERFACE DAS CARTAS ===
 function construirGrade() {
     if (!gradeCartas) return;
     
@@ -173,7 +166,6 @@ function construirGrade() {
     }
 }
 
-// === LOGICA DE VIRADA ===
 function virarCarta(elementoCarta, index) {
     if (bloqueado || jogoFinalizado) return;
     if (elementoCarta.classList.contains('flipped') || elementoCarta.classList.contains('matched')) return;
@@ -216,7 +208,6 @@ function verificarPar() {
     }
 }
 
-// === SOM DE ACERTO ===
 function tocarSomAcerto() {
     try {
         var AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -236,14 +227,12 @@ function tocarSomAcerto() {
     } catch (e) {}
 }
 
-// === ATUALIZAR PAINEL ===
 function atualizarContador() {
     if (contadorPares) {
         contadorPares.textContent = paresEncontrados + ' / ' + NUM_PARES;
     }
 }
 
-// === FINALIZACAO ===
 function finalizarJogo() {
     jogoFinalizado = true;
     exibirCariotipo();
@@ -272,10 +261,8 @@ function exibirCariotipo() {
     }
 }
 
-// === REINICIAR ===
 function reiniciarJogo() {
     construirGrade();
 }
 
-// === INICIAR O JOGO ===
 construirGrade();
