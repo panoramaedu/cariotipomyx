@@ -193,6 +193,15 @@ function construirGrade() {
         divCarta.addEventListener('click', () => virarCarta(divCarta, index));
         gradeCartas.appendChild(divCarta);
     });
+    // ... dentro de construirGrade(), após o loop que adiciona as cartas
+
+    // Centralizar as duas últimas cartas (índices 44 e 45) em grades de 4 colunas
+    if (gradeCartas.children.length === TOTAL_CARTAS) {
+        // Funciona apenas se a grid tiver 4 colunas (desktop)
+        const cartasDOM = gradeCartas.children;
+        cartasDOM[TOTAL_CARTAS - 2].style.gridColumn = '2 / 3'; // penúltima
+        cartasDOM[TOTAL_CARTAS - 1].style.gridColumn = '3 / 4'; // última
+    }
 }
 
 // === LÓGICA DE VIRADA ===
