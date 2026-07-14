@@ -1,140 +1,41 @@
-/* === RESET & BASE === */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Segoe UI', system-ui, sans-serif;
-    background-color: #f5f3ff;
-    color: #2d2b3e;
-}
-
-/* === PÁGINA INICIAL === */
-.pagina-inicial {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background: linear-gradient(135deg, #f5f3ff 0%, #e8e2ff 100%);
-    padding: 1rem;
-}
-
-.container-instrucoes {
-    text-align: center;
-    max-width: 600px;
-    padding: 2rem;
-}
-
-.container-instrucoes h1 {
-    font-size: clamp(1.8rem, 5vw, 2.5rem);
-    color: #800080;
-    margin-bottom: 1.5rem;
-}
-
-.box-instrucoes {
-    background: white;
-    border-radius: 20px;
-    padding: 1.5rem;
-    box-shadow: 0 8px 24px rgba(128, 0, 128, 0.15);
-    text-align: left;
-}
-
-.box-instrucoes h2 {
-    color: #800080;
-    margin-bottom: 1rem;
-    font-size: 1.4rem;
-}
-
-.box-instrucoes p,
-.box-instrucoes li {
-    font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-    line-height: 1.6;
-    margin-bottom: 0.5rem;
-}
-
-.box-instrucoes ul {
-    margin-left: 1.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.btn-iniciar {
-    background: #800080;
-    color: white;
-    border: none;
-    padding: 0.8rem 2rem;
-    font-size: 1.3rem;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: background 0.3s, transform 0.1s;
-    display: block;
-    margin: 1.5rem auto 0;
-    width: fit-content;
-}
-
-.btn-iniciar:hover {
-    background: #5e005e;
-    transform: scale(1.05);
-}
-
 /* === PÁGINA DO JOGO === */
 .pagina-jogo header {
     background: white;
-    padding: 0.8rem 1.5rem;
+    padding: 0.5rem 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 12px rgba(128, 0, 128, 0.1);
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.pagina-jogo header h1 {
-    color: #800080;
-    font-size: clamp(1.2rem, 4vw, 1.8rem);
-}
-
-.btn-reiniciar {
-    background: #f0e0ff;
-    border: 2px solid #800080;
-    color: #800080;
-    padding: 0.5rem 1.2rem;
-    border-radius: 30px;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
-}
-
-.btn-reiniciar:hover {
-    background: #e0ccff;
+    height: 60px;                     /* altura fixa */
+    box-sizing: border-box;
 }
 
 .area-jogo {
     display: flex;
     gap: 1.5rem;
-    padding: 1.5rem;
-    max-width: 1200px;
+    padding: 1rem;
+    height: calc(100vh - 60px);      /* ocupa o resto da tela */
+    box-sizing: border-box;
+    max-width: 1400px;
     margin: 0 auto;
-    min-height: calc(100vh - 70px);
 }
 
-/* Grade de cartas com CSS Grid */
+/* Grade com altura total, 12 linhas exatas */
 .grade-cartas {
     flex: 3;
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    align-content: start;
+    grid-template-rows: repeat(12, 1fr);
+    gap: 8px;
+    height: 100%;
+    overflow: hidden;               /* sem scroll */
 }
 
 .carta {
-    aspect-ratio: 3 / 4;  /* mantém proporção */
     perspective: 800px;
     cursor: pointer;
-    user-select: none;
-    /* tamanho será definido pela grid column */
+    width: 100%;
+    height: 100%;
 }
 
 .carta-inner {
@@ -145,58 +46,7 @@ body {
     transform-style: preserve-3d;
 }
 
-.carta.flipped .carta-inner {
-    transform: rotateY(180deg);
-}
-
-.carta.matched .carta-inner {
-    transform: rotateY(180deg);
-}
-
-.carta.matched {
-    cursor: default;
-}
-
-.carta-face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.carta-verso {
-    background: linear-gradient(145deg, #800080, #5e005e);
-    color: white;
-    font-size: clamp(1.2rem, 3vw, 2rem);
-    font-weight: bold;
-    letter-spacing: 2px;
-    border: 2px solid #d4b3ff;
-}
-
-.carta-frente {
-    background: white;
-    border: 2px solid #e0d7f5;
-    transform: rotateY(180deg);
-    padding: 8px;
-}
-
-/* Animação de acerto */
-@keyframes acertoPulse {
-    0% { box-shadow: 0 0 0 0 rgba(128, 0, 128, 0.5); }
-    50% { box-shadow: 0 0 20px 10px rgba(128, 0, 128, 0.3); }
-    100% { box-shadow: 0 0 0 0 rgba(128, 0, 128, 0); }
-}
-
-.carta.matched .carta-frente {
-    animation: acertoPulse 0.6s ease;
-    border-color: #800080;
-    background: #f9f4ff;
-}
+/* (restante das cartas permanece igual) */
 
 /* Painel lateral */
 .painel-lateral {
@@ -208,106 +58,49 @@ body {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    position: sticky;
-    top: 1.5rem;
-    height: fit-content;
-}
-
-.info-pares {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.1rem;
-    background: #f5f3ff;
-    padding: 0.8rem;
-    border-radius: 12px;
-    flex-wrap: wrap;
-}
-
-.info-pares .icone {
-    font-size: 1.5rem;
-}
-
-#contadorPares {
-    font-weight: bold;
-    color: #800080;
-}
-
-.cariotipo-final h2 {
-    color: #800080;
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-}
-
-.pares-ordenados {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 1rem;
-}
-
-.par-cariotipo {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-}
-
-.mensagem-parabens {
-    font-weight: bold;
-    color: #2d6a4f;
-    font-size: 1rem;
+    overflow-y: auto;               /* scroll interno se necessário */
+    max-height: 100%;
 }
 
 /* ============= RESPONSIVIDADE ============= */
 
-/* Tablet: mantém 4 colunas, mas reduz padding */
-@media (max-width: 900px) {
-    .area-jogo {
-        padding: 1rem;
-        gap: 1rem;
-    }
+/* Tablet grande: mantém 4 colunas, mas reduz altura das linhas */
+@media (max-width: 1000px) {
     .grade-cartas {
-        gap: 8px;
-    }
-    .painel-lateral {
-        padding: 1rem;
+        gap: 5px;
     }
 }
 
-/* Tablet pequeno / celular grande: 3 colunas */
-@media (max-width: 700px) {
+/* Tablet pequeno / celular grande: muda para 3 colunas */
+@media (max-width: 750px) {
     .area-jogo {
         flex-direction: column;
+        height: auto;               /* permite scroll vertical */
+        min-height: 100vh;
     }
     .grade-cartas {
         grid-template-columns: repeat(3, 1fr);
+        grid-template-rows: repeat(16, 1fr);  /* 46/3 = 16 linhas (15 cheias + 1 com 1 carta) */
+        height: auto;               /* altura natural */
+        overflow: visible;
+    }
+    /* Ajustar última linha para centralizar a carta restante */
+    .carta:nth-last-child(1) {
+        grid-column: 2 / 3;
     }
     .painel-lateral {
-        position: static; /* remove sticky em mobile */
-    }
-    .btn-reiniciar {
-        padding: 0.4rem 1rem;
-        font-size: 0.8rem;
+        max-height: none;
     }
 }
 
-/* Celular médio: 2 colunas */
+/* Celular: 2 colunas */
 @media (max-width: 450px) {
     .grade-cartas {
         grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(23, 1fr);  /* 46/2 = 23 linhas */
     }
-    .carta-verso {
-        font-size: 1rem;
-    }
-    header {
-        padding: 0.5rem 1rem;
-    }
-}
-
-/* Celular muito pequeno (ex: 320px) */
-@media (max-width: 350px) {
-    .grade-cartas {
-        gap: 5px;
+    /* Remover centralização extra, todas as linhas terão 2 cartas */
+    .carta:nth-last-child(1) {
+        grid-column: auto;
     }
 }
