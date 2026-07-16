@@ -3,22 +3,26 @@ var MODOS = {
     facil: {
         nome: 'Mosca das frutas',
         numPares: 4,
-        tamanhos: [160, 130, 100, 70]
+        tamanhos: [160, 130, 100, 70],
+        cardMin: 130
     },
     medio: {
         nome: 'Cenoura',
         numPares: 9,
-        tamanhos: [160, 148, 136, 124, 112, 100, 88, 76, 64]
+        tamanhos: [160, 148, 136, 124, 112, 100, 88, 76, 64],
+        cardMin: 100
     },
     dificil: {
         nome: 'Ouriço do mar',
         numPares: 18,
-        tamanhos: [160, 154, 148, 142, 136, 130, 124, 118, 112, 106, 100, 94, 88, 82, 76, 70, 64, 58]
+        tamanhos: [160, 154, 148, 142, 136, 130, 124, 118, 112, 106, 100, 94, 88, 82, 76, 70, 64, 58],
+        cardMin: 78
     },
     mestre: {
         nome: 'Humano',
         numPares: 23,
-        tamanhos: [160, 154, 148, 142, 136, 130, 124, 118, 112, 106, 100, 94, 88, 82, 76, 70, 64, 58, 52, 46, 40, 34, 28]
+        tamanhos: [160, 154, 148, 142, 136, 130, 124, 118, 112, 106, 100, 94, 88, 82, 76, 70, 64, 58, 52, 46, 40, 34, 28],
+        cardMin: 64
     }
 };
 
@@ -35,7 +39,6 @@ var NUM_PARES;
 var TOTAL_CARTAS;
 var CORES;
 var TAMANHOS;
-var NUM_COLUNAS = 4;
 
 var CHANCE_DUPLICACAO = 0.10;
 
@@ -73,6 +76,9 @@ function configurarModo(modo) {
     TOTAL_CARTAS = NUM_PARES * 2;
     CORES = CORES_COMPLETAS.slice(0, NUM_PARES);
     TAMANHOS = config.tamanhos;
+    if (gradeCartas) {
+        gradeCartas.style.setProperty('--card-min', config.cardMin + 'px');
+    }
     console.log('Modo: ' + modo + ' | Pares: ' + NUM_PARES + ' | Cartas: ' + TOTAL_CARTAS);
 }
 
@@ -171,28 +177,6 @@ function criarBaralho() {
     return baralho;
 }
 
-// === AJUSTAR GRADE ===
-function configurarGrade() {
-    var numLinhas = Math.ceil(TOTAL_CARTAS / NUM_COLUNAS);
-    gradeCartas.style.gridTemplateRows = 'repeat(' + numLinhas + ', 1fr)';
-    
-    var cartasNaUltimaLinha = TOTAL_CARTAS % NUM_COLUNAS;
-    if (cartasNaUltimaLinha === 0) return;
-    
-    var cartasDOM = gradeCartas.children;
-    var inicioUltimaLinha = TOTAL_CARTAS - cartasNaUltimaLinha;
-    
-    for (var i = 0; i < cartasDOM.length; i++) {
-        cartasDOM[i].style.gridColumn = '';
-    }
-    
-    var colunaInicial = Math.floor((NUM_COLUNAS - cartasNaUltimaLinha) / 2) + 1;
-    for (var i = 0; i < cartasNaUltimaLinha; i++) {
-        var idx = inicioUltimaLinha + i;
-        cartasDOM[idx].style.gridColumn = (colunaInicial + i) + ' / ' + (colunaInicial + i + 1);
-    }
-}
-
 // === CONSTRUIR GRADE ===
 function construirGrade() {
     if (!gradeCartas) return;
@@ -238,8 +222,6 @@ function construirGrade() {
             gradeCartas.appendChild(divCarta);
         })(i);
     }
-    
-    configurarGrade();
 }
 
 // === VIRADA ===
